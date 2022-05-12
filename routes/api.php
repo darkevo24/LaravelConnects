@@ -34,3 +34,21 @@ Route::get('/admin/jobs/{id}', [JobController::class, 'showByAdmin'])->name('job
 Route::post('/admin/jobs', [JobController::class, 'create'])->name('job.create');
 Route::put('/admin/jobs/{id}', [JobController::class, 'update'])->name('job.update');
 Route::delete('/admin/jobs/{id}', [JobController::class, 'delete'])->name('job.delete');
+
+
+
+Route::middleware(['guest'])->prefix('/company')->group(function () {
+    Route::post('login', [LoginController::class, 'login']);
+});
+
+Route::middleware('auth:sanctum')->prefix('/company')->group(function () {
+    Route::post('logout', [LoginController::class, 'logout']);
+
+    Route::get('me', [AdminController::class, 'me']);
+});
+
+Route::get('/company/jobs', [JobController::class, 'viewByAdmin'])->name('job.view.admin');
+Route::get('/company/jobs/{id}', [JobController::class, 'showByAdmin'])->name('job.show.admin');
+Route::post('/company/jobs', [JobController::class, 'create'])->name('job.create');
+Route::put('/company/jobs/{id}', [JobController::class, 'update'])->name('job.update');
+Route::delete('/company/jobs/{id}', [JobController::class, 'delete'])->name('job.delete');
